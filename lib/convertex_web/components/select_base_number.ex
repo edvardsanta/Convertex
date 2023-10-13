@@ -3,13 +3,11 @@ defmodule ConvertexWeb.SelectBaseNumber do
 
   def render_select(assigns) do
     ~L"""
-    <label for="<%= @name %>">Convert from:</label>
-    <label for="from">Convert from:</label>
     <select name="<%= @name %>" id="<%= @id %>">
-      <option value="decimal">Decimal</option>
-      <option value="hexadecimal">Hexadecimal</option>
-      <option value="octal">Octal</option>
-      <option value="binary">Binary</option>
+      <option value="dec">Decimal</option>
+      <option value="hex">Hexadecimal</option>
+      <option value="oct">Octal</option>
+      <option value="bin">Binary</option>
     </select>
     """
   end

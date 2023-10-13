@@ -1,6 +1,6 @@
 <.flash_group flash={@flash} />
-<div>
-  <form action="/convert" method="post" class="w-full max-w-md mx-auto mt-8">
+<div class="container mx-auto py-8">
+  <form id="convert-form" class="w-full max-w-md mx-auto mt-8">
     <div class="mb-6">
       <label for="number" class="block text-gray-700 text-sm font-bold mb-2">
         Enter a number:
@@ -33,4 +33,26 @@
       </button>
     </div>
   </form>
+  <div id="result" class="text-center text-gray-700 text-xl"></div>
+  <script>
+    document.getElementById('convert-form').addEventListener('submit', function (event) {
+      event.preventDefault(); // Prevent the default form submission behavior
+
+      const formData = new FormData(event.target);
+      console.log(formData)
+      fetch('/convert', {
+        method: 'POST',
+        body: formData,
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // add result
+          const resultContainer = document.getElementById('result');
+          resultContainer.innerHTML = `Converted Result: ${data.result}`;
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    });
+  </script>
 </div>

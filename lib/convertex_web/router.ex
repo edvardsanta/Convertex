@@ -22,6 +22,11 @@ defmodule ConvertexWeb.Router do
     get "/test", ShowController, :show
   end
 
+  scope "/", ConvertexWeb do
+    pipe_through :api
+    post "/convert", ConvertController, :create
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", ConvertexWeb do
   #   pipe_through :api
