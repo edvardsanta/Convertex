@@ -35,24 +35,45 @@
   </form>
   <div id="result" class="text-center text-gray-700 text-xl"></div>
   <script>
-    document.getElementById('convert-form').addEventListener('submit', function (event) {
-      event.preventDefault(); // Prevent the default form submission behavior
+    document.addEventListener('DOMContentLoaded', (event) => {
+        const fromSelect = document.getElementById('from');
+        const toSelect = document.getElementById('to');
 
-      const formData = new FormData(event.target);
-      console.log(formData)
-      fetch('/convert', {
-        method: 'POST',
-        body: formData,
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // add result
-          const resultContainer = document.getElementById('result');
-          resultContainer.innerHTML = `Converted Result: ${data.result}`;
-        })
-        .catch((error) => {
-          console.error('Error:', error);
+        fromSelect.addEventListener('change', function() {
+          syncSelectOptions(this, toSelect);
         });
-    });
+
+        toSelect.addEventListener('change', function() {
+          syncSelectOptions(this, fromSelect);
+        });
+
+        function syncSelectOptions(changedSelect, otherSelect) {
+          const selectedValue = changedSelect.value;
+          for (let option of otherSelect.options) {
+            option.disabled = (option.value === selectedValue);
+          }
+        }
+      });
+
+        document.getElementById('convert-form').addEventListener('submit', function (event) {
+          event.preventDefault(); // Prevent the default form submission behavior
+
+          const formData = new FormData(event.target);
+          console.log(formData)
+          fetch('/convert', {
+            method: 'POST',
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              // add result
+              const resultContainer = document.getElementById('result');
+              resultContainer.innerHTML = `Converted Result: ${data.result}`;
+            })
+            .catch((error) => {
+              console.error('Error:', error);
+            });
+        });
+      
   </script>
 </div>
